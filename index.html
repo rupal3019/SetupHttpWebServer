@@ -3,15 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Technical Skills</title>
+    <!-- <title>My Technical Skills</title> -->
+    <title>Skills API</title>
 </head>
 <body>
-    <h1>this is a list of my techical skills</h1>
-    <select>
-        <option>HTML</option>
+    <label>Skills</label>
+    <select id='listSkills'></select>
+    <label>Add new Skill</label>
+    <input type = 'text' id = 'txtSkills'>
+    <button id = 'btnAdd'></button>
+
+    <script>
+        const lstSkill = document.getElementById('listSkills')
+        const addSkill = document.getElementById('btnAdd')
+        const txtSkill = document.getElementById('txtSkills')
+        fetch('http://localhost:8082/list')
+        .then(response => response.json())
+        .then(jsonResponse => jsonResponse.forEach(skill => {
+          let o = document.createElement('option')
+          o.textContent = skill
+          lstSkill.appendChild(o)  
+        }))
+
+        addSkill.addEventListener('click', e => {
+            let skill = txtSkill.value;
+            fetch(`http://localhost:8082/list?skill=${skill}`,{'method':'POST'})
+            .then(response => response.json())
+            .then(jsonResponse => alert(jsonResponse.message))
+
+        })
+
+    </script>
+
+    <!-- <h1>this is a list of my techical skills</h1> -->
+    <!-- <select> -->
+        <!-- <option>HTML</option>
         <option>CSS</option>
         <option>PYTHON</option>
-        <option>SQL</option>
-    </select>
+        <option>SQL</option> -->
+    <!-- </select> -->
 </body>
 </html>
